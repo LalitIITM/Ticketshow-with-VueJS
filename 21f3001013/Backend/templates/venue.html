@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+  <h1>Venues</h1>
+ 
+  <p>Logged in as {{ current_user.username }}</p>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Place</th>
+        <th>Capacity</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for venue in venues %}
+        <tr>
+          <td>{{ venue.id }}</td>
+          <td>{{ venue.name }}</td>
+          <td>{{ venue.place }}</td>
+          <td>{{ venue.capacity }}</td>
+          <td>
+           
+            <a href="{{ url_for('routes.edit_venue', id=venue.id) }}" class="btn btn-secondary">Edit</a>
+            <a href="{{ url_for('routes.delete_venue', id=venue.id) }}" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this venue?')">Delete</a>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <br>
+  <a href="{{ url_for('routes.create_venue') }}">Add a new Venue</a>
+  <br>
+  <a href="{{ url_for('routes.admin_dashboard') }}">Go to Admin Home Page</a>
+  <br>
+  <a href="{{ url_for('login.logout') }}">Log Out</a>
+{% endblock %}
+

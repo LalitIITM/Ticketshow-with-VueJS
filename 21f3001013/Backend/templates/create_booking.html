@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block content %}
+<h2> {{current_user.username}} Welcome to Ticketshow for creating booking</h2>
+<h2 class="mb-4">Create Booking</h2>
+<form method="POST" action="{{ url_for('routes.create_booking') }}">
+  {{ form.hidden_tag() }}
+  <div class="form-group">
+    {{ form.show_name.label(class="form-label") }}
+    {{ form.show_name(class="form-select", placeholder="Select show name") }}
+  </div>
+  <div class="form-group">
+    {{ form.venue_name.label(class="form-label") }}
+    {{ form.venue_name(class="form-select", placeholder="Select venue name") }}
+  </div>
+  <div class="form-group">
+    {{ form.quantity.label(class="form-label") }}
+    {{ form.quantity(class="form-control", placeholder="Enter quantity") }}
+  </div>
+  <button type="submit" class="btn btn-primary">Create Booking</button>
+</form>
+    <br>
+    <a href="{{ url_for('routes.create_booking') }}">Book more tickets</a>
+    <br>
+    <a href="{{ url_for('routes.my_bookings') }}">Go to My Bookings</a>
+    
+    <br>
+    <a href="{{ url_for('routes.user_dashboard') }}">Go to Your Home Page </a>
+</br>
+    <br>
+    <a href="{{ url_for('login.logout') }}">Log Out</a>
+</br>
+{% endblock %}

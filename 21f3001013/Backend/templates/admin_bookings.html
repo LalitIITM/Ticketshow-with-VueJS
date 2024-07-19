@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Welcome, Admin! All Bookings</h1>
+    
+    {% if booking_details %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">User</th>
+                    <th scope="col">Show</th>
+                    <th scope="col">Venue</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for booking_detail in booking_details %}
+                    <tr>
+                        <th scope="row">{{ booking_detail.id }}</th>
+                        <td>{{ booking_detail.user }}</td>
+                        <td>{{ booking_detail.show_name }}</td>
+                        <td>{{ booking_detail.venue_name }}</td>
+                        <td>{{ booking_detail.quantity }}</td>
+                        <td>
+                            <form action="{{ url_for('routes.delete_booking', booking_id=booking_detail.id) }}" method="POST">
+                                <button class="btn btn-danger" type="submit">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No bookings found!</p>
+    {% endif %}
+    
+    <br>
+    <a href="{{ url_for('routes.admin_dashboard') }}">Go to Admin Home Page</a>
+    <br>
+    <a href="{{ url_for('login.logout') }}">Log Out</a>
+    </br>
+{% endblock %}

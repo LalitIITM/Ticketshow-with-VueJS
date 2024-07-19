@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="container">
+    <form action="{{ url_for('routes.search') }}" method="post">
+      <div class="form-group">
+        <label for="search_term">Search by Show:</label>
+        <input type="text" class="form-control" id="search_term" name="search_term">
+      </div>
+      <div class="form-group">
+        <label for="location">Search by Location:</label>
+        <input type="text" class="form-control" id="location" name="location">
+      </div>
+      <div class="form-group">
+        <label for="rating">Rating:</label>
+        <select class="form-control" id="rating" name="rating">
+          <option value="">--Select--</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="tag">Tag:</label>
+        <input type="text" class="form-control" id="tag" name="tag">
+      </div>
+      <button type="submit" class="btn btn-primary">Search</button>
+    </form>
+
+    {% if shows %}
+      <h3>Shows</h3>
+      <ul>
+        {% for show in shows %}
+          <li>{{ show.name }} - {{ show.date }} - {{ show.time }} - Rating: {{ show.rating }}</li>
+          {% if show_venues %}
+            <ul>
+              <li>Venue: {{ show_venues[show.id].name }} - {{ show_venues[show.id].place }}</li>
+            </ul>
+          {% endif %}
+        {% endfor %}
+      </ul>
+    {% endif %}
+
+    {% if venues %}
+      <h3>Venues</h3>
+      <ul>
+        {% for venue in venues %}
+          <li>{{ venue.name }} - {{ venue.place }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  </div>
+<h2>Note the Show Show and Venue combination for ticket booking!</h2>
+
+    <h2>Log in or register to book shows at these venues!</h2>
+    <br>
+    <a href="{{ url_for('routes.search') }}">Search Again</a>
+    <br>
+    <a href="{{ url_for('login.login') }}">Log In</a>
+    <br>
+    <a href="{{ url_for('login.register') }}">Register</a>
+    <br>
+    <a href="{{ url_for('routes.home') }}">Go to Home </a>
+    <br>
+    <a href="{{ url_for('routes.user_dashboard') }}">Go to Your (User) Home Page </a>
+    <br>
+    <a href="{{ url_for('routes.admin_dashboard') }}">Go to Your (Admin) Home Page </a> 
+    <br>
+{% endblock %}
+
+
+

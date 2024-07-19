@@ -1,0 +1,45 @@
+*,
+html,
+body {
+  margin: 0;
+}
+.landing {
+  background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+  background-size: 400% 400%;
+  animation: gradient 150s ease infinite;
+  height: 100vh;
+  font-family: "Arvo", serif;
+  text-align: center;
+  color: aliceblue;
+}
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.landing h1 {
+  font-size: 70px;
+}
+.center button {
+  margin-right: 10px;
+}
+ul[role="tablist"],
+.tabs {
+  background: aliceblue;
+}
+.tabs {
+  min-height: 600px;
+  color: #000;
+}
+.tabs {
+  text-align: left;
+}

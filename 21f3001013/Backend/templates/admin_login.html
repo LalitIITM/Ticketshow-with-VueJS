@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>Admin Login</h1>
+  <form method="POST">
+    {{ form.csrf_token }}
+    {{ form.username.label }} {{ form.username }}
+    {{ form.password.label }} {{ form.password }}
+    <button type="submit">Login</button>
+  </form>
+
+  <br>
+    <a href="{{ url_for('routes.home') }}">Go to Home Page</a>
+{% endblock %}

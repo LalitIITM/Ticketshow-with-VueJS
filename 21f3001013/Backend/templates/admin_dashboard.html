@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Admin Dashboard</h1>
+
+    <div class="card-deck">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Create Venue</h5>
+                <p class="card-text">Create a new venue for shows.</p>
+                <a href="{{ url_for('routes.create_venue') }}" class="btn btn-primary">Create Venue</a>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Create Show</h5>
+                <p class="card-text">Create a new show at a venue.</p>
+                <a href="{{ url_for('routes.create_show') }}" class="btn btn-primary">Create Show</a>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">VENUES</h5>
+                <p class="card-text">Click to edit/delete venues</p>
+                <a href="{{ url_for('routes.venues') }}" class="btn btn-primary">All Venues</a>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title"> SHOWS</h5>
+                <p class="card-text">Click to edit/delete shows.</p>
+                <a href="{{ url_for('routes.shows') }}" class="btn btn-primary">All Shows</a>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Bookings</h5>
+                <p class="card-text">Click to view all bookings.</p>
+                <a href="{{ url_for('routes.admin_bookings') }}" class="btn btn-primary">All Bookings</a>
+            </div>
+        </div>
+    </div>
+    <a href="{{ url_for('login.register_approval') }}" class="btn btn-primary">Register Approval</a>
+    <h1>User Registration Approval</h1>
+    {% if unapproved_users %}
+        <form method="POST">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Username</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Approve</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in unapproved_users %}
+                        <tr>
+                            <td>{{ user.username }}</td>
+                            
+                            <td>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="{{ user.id }}" id="approve-{{ user.id }}">
+                                    <label class="form-check-label" for="approve-{{ user.id }}">Approve</label>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <button type="submit" class="btn btn-primary">Approve Selected Users</button>
+        </form>
+    {% else %}
+        
+        <br>
+        
+        <br> <a href="{{ url_for('login.logout') }}">Log Out</a>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1> Welcome to TICKETSHOW - Your single window to book Movie Tickets</h1>
+    <h2>Login</h2>
+    <p>Please select your user type:</p>
+    <ul>
+        <li><a href="{{ url_for('login.user_login') }}">User</a></li>
+        <li><a href="{{ url_for('login.admin_login') }}">Admin</a></li>
+    </ul>
+    <br>
+    <a href="{{ url_for('routes.home') }}">Go to Home Page</a>
+{% endblock %}
+

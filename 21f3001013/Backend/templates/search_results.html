@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Search Results</h1>
+    <hr>
+
+    {% if shows %}
+        <h2>Shows:</h2>
+        <ul>
+            {% for show in shows %}
+            <li style="font-size: 30px; color: blue;">{{ show.name }} at {{ show.venue.name }} ({{ show.venue.place }})</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No shows found.</p>
+    {% endif %}
+
+   
+    <h2>Note the Show and Venue combination for ticket booking!</h2>
+    
+
+  <h2>Log in or register to book shows at these venues!</h2>
+  <br> 
+  <a href="{{ url_for('routes.search') }}">Search Again</a>
+  <br>
+  <a href="{{ url_for('login.login') }}">Log In</a>
+  <br> 
+  <a href="{{ url_for('login.register') }}">Register</a>
+  <br>
+  <a href="{{ url_for('routes.home') }}">Go to Home </a>
+  <a href="{{ url_for('routes.user_dashboard') }}">Go to Your Home Page </a>
+  <br> 
+{% endblock %}

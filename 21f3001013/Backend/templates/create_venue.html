@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Create a new Venue</h2>
+  <p>Logged in as {{ current_user.username }}</p>
+  <form method="post" action="{{ url_for('routes.create_venue') }}">
+    {{ form.hidden_tag() }}
+    <div class="form-group">
+      {{ form.name.label(class_="form-control-label") }}
+      {% if form.name.errors %}
+        {{ form.name(class_="form-control form-control-lg is-invalid") }}
+        <div class="invalid-feedback">
+          {% for error in form.name.errors %}
+            <span>{{ error }}</span>
+          {% endfor %}
+        </div>
+      {% else %}
+        {{ form.name(class_="form-control form-control-lg") }}
+      {% endif %}
+    </div>
+    <div class="form-group">
+      {{ form.place.label(class_="form-control-label") }}
+      {% if form.place.errors %}
+        {{ form.place(class_="form-control form-control-lg is-invalid") }}
+        <div class="invalid-feedback">
+          {% for error in form.place.errors %}
+            <span>{{ error }}</span>
+          {% endfor %}
+        </div>
+      {% else %}
+        {{ form.place(class_="form-control form-control-lg") }}
+      {% endif %}
+    </div>
+    <div class="form-group">
+      {{ form.capacity.label(class_="form-control-label") }}
+      {% if form.capacity.errors %}
+        {{ form.capacity(class_="form-control form-control-lg is-invalid") }}
+        <div class="invalid-feedback">
+          {% for error in form.capacity.errors %}
+            <span>{{ error }}</span>
+          {% endfor %}
+        </div>
+      {% else %}
+        {{ form.capacity(class_="form-control form-control-lg") }}
+      {% endif %}
+    </div>
+    <button type="submit" class="btn btn-primary">Create</button>
+  </form>
+  <br>
+    <a href="{{ url_for('routes.admin_dashboard') }}">Go to Admin Home Page</a>
+    <br>
+    <a href="{{ url_for('login.logout') }}">Log Out</a>
+</br>
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Delete Show</h1>
+  <p>Logged in as {{ current_user.username }}</p>
+  <p>Are you sure you want to delete the show "{{ show.name }}"?</p>
+  <form method="post">
+    <button type="submit" class="btn btn-danger">Delete</button>
+    
+  </form>
+  <br>
+  <a href="{{ url_for('routes.admin_dashboard') }}">Go to Admin Home Page</a>
+  <br>
+  <a href="{{ url_for('login.logout') }}">Log Out</a>
+</br>
+{% endblock %}
