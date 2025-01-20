@@ -1,0 +1,766 @@
+openapi: 3.0.0
+info:
+  title: My Flask RESTful API
+  version: 1.0.0
+  description: My Flask RESTful API for TICKETSHOW app with resources for users, venues, and shows
+
+servers:
+  - url: http://localhost:8080
+
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        user_id:
+          type: integer
+          format: int32
+        username:
+          type: string
+        password:
+          type: string
+
+    
+    Venue:
+      type: object
+      properties:
+        venue_id:
+          type: integer
+          format: int32
+        name:
+          type: string
+        place:
+          type: string
+        capacity:
+          type: integer
+          format: int32
+
+    CreateVenue:
+      type: object
+      properties:
+        name:
+          type: string
+        place:
+          type: string
+        capacity:
+          type: integer
+          format: int32
+
+    UpdatedVenue:  # Define the new schema for the updated venue
+      type: object
+      properties:
+        name:
+          type: string
+        place:
+          type: string
+        capacity:
+          type: integer
+          format: int32
+      required:
+        - name
+        - place
+        - capacity
+
+    Show:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        name:
+          type: string
+        rating:
+          type: number
+          format: integer
+        tags:
+          type: string
+        image_path:
+          type: string
+        ticket_price:
+          type: number
+          format: float
+        venue_id:
+          type: integer
+          format: int32
+
+    UpdatedShow:
+      type: object
+      properties:
+        name:
+          type: string
+        rating:
+          type: integer
+        tags:
+          type: string
+        image_path:
+          type: string
+        ticket_price:
+          type: number
+        venue_name:
+          type: string
+      required:
+        - name
+        - rating
+        - tags
+        - image_path
+        - ticket_price
+        - venue_id
+
+    CreateShow:
+      type: object
+      properties:
+        
+        name:
+          type: string
+        rating:
+          type: number
+          format: integer
+        tags:
+          type: string
+        image_path:
+          type: string
+        ticket_price:
+          type: number
+          format: float
+        venue_name:
+          type: string
+          
+    CreateBooking:   
+      type: object
+      properties:
+        show_name:
+          type: string
+        venue_name:
+          type: string
+        quantity:
+          type: integer
+
+    Booking:   
+      type: object
+      properties:
+        booking_id:
+          type: integer
+        user_id:
+          type: integer
+        show_id:
+          type: integer
+        venue_id:
+          type: integer
+        quantity:
+          type: integer
+
+    UserBookings:
+      type: object
+      properties:
+        booking_id:
+          type: integer
+        show_name:
+          type: string
+        venue_name:
+          type: string
+        quantity:
+          type: integer
+
+paths:
+  /api/login:
+    post:
+      summary: User and Admin login
+      responses:
+        '200':
+          description: User/Admin login successful
+        '400':
+          description: Invalid input data
+        '401':
+          description: Invalid username or password / Registration not approved
+        '500':
+          description: An error occurred
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+      tags:
+        - Login
+
+  /api/logout:
+    get:
+      summary: User logout
+      responses:
+        '200':
+          description: Logout successful
+      # Note: The @token_required decorator is mandatory for this route
+
+
+  /api/user:
+    get:
+      summary: Get all users
+      operationId: getAllUsers
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+
+      tags:
+        - ALL USERS (For Admin Only)
+
+  /api/venues:
+    get:
+      summary: Get all venues
+      operationId: getAllVenues
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Venue'
+      tags:
+        - ALL VENUES
+
+  /api/shows:
+    get:
+      summary: Get all shows
+      operationId: getAllShows
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Show'
+      tags:
+        - ALL SHOWS
+
+  /api/admin_bookings:
+    get:
+      tags:
+        - All BOOKINGS (For Admin Only)
+      summary: Get all bookings (For Admin only)
+      description: Retrieve a list of all bookings
+      responses:
+        '200':
+          description: Successfully retrieved all bookings
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Booking'
+
+  /api/admin_bookings/{user_id}:
+    get:
+      summary: Get bookings of a particular user (For Admin)
+      operationId: getUserBookings
+      parameters:
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserBookings'
+        '404':
+          description: User not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Message:
+                    type: string
+      tags:
+        - All BOOKINGS (For Admin Only)
+  
+  /api/user/{username}:
+    get:
+      summary: Get a user by username (For Admin only)
+      operationId: getUserByUsername
+      parameters:
+        - name: username
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '404':
+          description: User not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Message:
+                    type: string
+
+      tags:
+        - USER
+
+    put:
+      summary: Update a user's password
+      operationId: updateUserPassword
+      parameters:
+        - name: username
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                password:
+                  type: string
+              required:
+                - password
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Message:
+                    type: string
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Message:
+                    type: string
+                  ErrorCode:
+                    type: string
+                  ErrorMessage:
+                    type: string
+        '404':
+          description: User not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Message:
+                    type: string
+                  ErrorCode:
+                    type: string
+                  ErrorMessage:
+                    type: string
+      tags:
+        - USER
+
+    delete:
+      summary: Delete a user by username(For Admin only)
+      operationId: deleteUserByUsername
+      parameters:
+        - name: username
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Message:
+                    type: string
+        '404':
+          description: User not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Message:
+                    type: string
+      tags:
+        - USER
+  /api/user/register:
+    post:
+      summary: Register a new user
+      operationId: RegisterUser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+              required:
+                - username
+                - password
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Message:
+                    type: string
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Message:
+                    type: string
+                  ErrorCode:
+                    type: string
+                  ErrorMessage:
+                    type: string
+      tags:
+        - REGISTER (For new user)
+  
+  /api/approve_user/{user_id}:
+    put:
+      summary: Approve user registration
+      description: Approve user registration based on user ID
+      parameters:
+        - name: user_id
+          in: path
+          description: ID of the user to be approved
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: User registration approved successfully
+          content:
+            application/json:
+              example:
+                message: User registration approved successfully
+        '400':
+          description: User is already approved or user not found
+          content:
+            application/json:
+              example:
+                message: User is already approved or user not found
+        '500':
+          description: Failed to approve user registration
+          content:
+            application/json:
+              example:
+                message: Failed to approve user registration
+      tags:
+        - Approve (For Admin)
+
+  /api/venue:
+    get:
+      summary: Get information of all Venue
+      operationId: getAllVenues
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Venue'
+      tags:
+        - ALL VENUES
+  
+  /api/venue/{venue_id}:
+    get:
+      summary: Get a venue by ID
+      operationId: getVenueById
+      parameters:
+        - name: venue_id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Venue'
+      tags:
+        - ALL VENUES
+
+    put:
+      summary: Update a venue by ID (For Admin only)
+      operationId: updateVenueById
+      parameters:
+        - name: venue_id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdatedVenue'
+      responses:
+        '200':
+          description: Successful operation
+          
+      tags:
+        - VENUE
+    delete:
+      summary: Delete a venue by ID (For Admin only)
+      operationId: deleteVenueById
+      parameters:
+        - name: venue_id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: Successful operation
+      tags:
+        - VENUE
+
+  /api/venue/create:
+    post:
+      summary: Create a new venue (For Admin only)
+      operationId: createVenue
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateVenue'
+      responses:
+        '200':
+          description: Venue created successfully
+      tags:
+        - CREATE VENUE  (Admin only)        
+
+      
+  /api/show:
+    get:
+      summary: Get information of all shows
+      operationId: getAllShows
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Show'
+
+      tags:
+        - ALL SHOWS
+    
+  /api/show/{show_id}:
+    get:
+      summary: Get information of a particular show 
+      operationId: getShowById
+      parameters:
+        - name: show_id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Show'
+      tags:
+        - ALL SHOWS
+
+    put:
+      summary: Update a show by ID (For Admin only)
+      operationId: updateShowById
+      parameters:
+        - name: show_id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdatedShow'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Show'
+      tags:
+        - SHOW
+
+    delete:
+      summary: Delete a show by ID (For Admin only)
+      operationId: deleteShowById
+      parameters:
+        - name: show_id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: Successful operation
+      tags:
+        - SHOW
+
+  /api/show/create:
+    post:
+      summary: Create a new show (For Admin only)
+      operationId: createShow
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateShow'
+      responses:
+        '201':
+          description: Show created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateShow'    
+      tags:
+        - CREATE A NEW SHOW ( For Admin only) 
+
+  
+
+  /api/create_booking:
+    post:
+      tags:
+        - Booking (For user only)
+      summary: Create a new booking 
+      description: Create a new booking for a user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateBooking'
+      responses:
+        '200':
+          description: Successfully created a new booking
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateBooking'
+
+  /api/my_bookings:
+    get:
+      tags:
+        - Booking (For user only)
+      summary: Fetch user's bookings
+      description: Retrieve a list of user's bookings along with show and venue details
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    show_name:
+                      type: string
+                    venue_name:
+                      type: string
+                    quantity:
+                      type: integer
+  /api/search:
+    post:
+      summary: Search shows
+      description: Search for shows based on various criteria
+      tags:
+        - Search
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                show:
+                  type: string
+                location:
+                  type: string
+                
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    name:
+                      type: string
+                    rating:
+                      type: integer
+                    tags:
+                      type: string
+                      items:
+                        type: string
+                    venue:
+                      type: string
+                    place:
+                      type: string
+  

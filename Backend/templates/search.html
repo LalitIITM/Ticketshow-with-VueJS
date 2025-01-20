@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+  <div class="row">
+    <div class="col-md-6 mx-auto">
+      <h2>Search for Venues and Shows</h2>
+      <form method="POST" action="{{ url_for('routes.search') }}">
+        <div class="form-group">
+          <label for="search_term">Show</label>
+          <input type="text" class="form-control" name="search_term" id="search_term">
+        </div>
+        <div class="form-group">
+          <label for="location">Location</label>
+          <input type="text" class="form-control" name="location" id="location">
+        </div>
+        <div class="form-group">
+          <label for="rating">Rating</label>
+          <input type="text" class="form-control" name="rating" id="rating">
+        </div>
+        <div class="form-group">
+          <label for="tag">Tag</label>
+          <input type="text" class="form-control" name="tag" id="tag">
+        </div>
+        <button type="submit" class="btn btn-primary">Search</button>
+      </form>
+    </div>
+  </div>
+</div>
+<br>
+    <a href="{{ url_for('routes.home') }}">Go to Home Page</a>
+{% endblock %}

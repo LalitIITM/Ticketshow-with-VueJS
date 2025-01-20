@@ -1,0 +1,28 @@
+my-spa-app/
+|-- public/
+|   |-- index.html
+|-- src/
+|   |-- assets/
+|   |   |-- logo.png
+|   |
+|   |-- components/
+|   |   |-- UserLogin.vue
+|   |   |-- UserRegistration.vue
+|   |   |-- UserDashboard.vue
+|   |   |-- AdminDashboard.vue
+|   |   |-- ShowList.vue
+|   |   |-- VenueList.vue
+|   |
+|   |-- views/
+|   |   |-- Home.vue
+|   |   |-- Login.vue
+|   |   |-- Register.vue
+|   |   |-- UserDashboardView.vue
+|   |   |-- AdminDashboardView.vue
+|   |
+|   |-- App.vue
+|   |-- main.js
+|
+|-- vue.config.js
+|-- package.json
+|-- README.md

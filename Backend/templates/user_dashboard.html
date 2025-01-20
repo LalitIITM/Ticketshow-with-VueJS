@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>User Dashboard for Booking tickets and see My_Bookings</h1>
+
+  <p>Welcome, {{ current_user.username }}!</p>
+  <p>{{ current_user.username }}, You are logged in as User </p>
+  <div class="card-deck">
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Create Booking, Kindly check show and venue from search</h5>
+            <p class="card-text">Create a new booking.</p>
+            <a href="{{ url_for('routes.create_booking') }}" class="btn btn-primary">Create Booking</a>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Your Bookings</h5>
+            <p class="card-text">See all your bookings.</p>
+            <a href="{{ url_for('routes.my_bookings') }}" class="btn btn-primary">Your Bookings</a>
+        </div>
+    </div>
+
+    
+  <br>
+    
+    <a href="{{ url_for('login.logout') }}">Log Out</a>
+    <br>
+    <a href="{{ url_for('routes.search') }}">Search Shows</a>
+     
+  {% endblock %}

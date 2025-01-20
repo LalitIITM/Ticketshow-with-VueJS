@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+        rel="stylesheet"
+        href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+        crossorigin="anonymous"
+    />
+    <link
+        rel="stylesheet"
+        href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+        crossorigin="anonymous"
+    />
+    <link href="../static/styles.css" rel="stylesheet">
+    <link href='https://fonts.googleapis.com/css?family=Lobster' rel='stylesheet'>
+    <title>{% block title %}TicketShow{% endblock %}</title>
+</head>
+
+<body>
+    <main role="main" class="container mt-3">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        {% for category, message in messages %}
+        <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <footer class="bg-dark text-white mt-3 p-3">
+        <div class="container text-center">
+            &copy; Ticketshow {{now.year }}
+        </div>
+    </footer>
+
+    <script
+        src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"
+    ></script>
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"
+    ></script>
+    <script
+        src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"
+    ></script>
+
+    <script>
+        // Define the API URLs as JavaScript variables
+        const apiUrls = {
+            user_api_url: "http://localhost:8080/api/user/<username>",
+            create_user_api_url: "http://localhost:8080/api/user/",
+            venue_api_url: "http://localhost:8080/api/venue/",
+            specific_venue_api_url: "http://localhost:8080/api/venue/<venue_id>",
+            create_venue_api_url: "http://localhost:8080/api/venue/",
+            show_api_url: "http://localhost:8080/api/show/<show_id>",
+            create_show_api_url: "http://localhost:8080/api/show/",
+            all_venues_api_url: "http://localhost:8080/api/venues",
+            all_shows_api_url: "http://localhost:8080/api/shows",
+            create_booking_api_url: "http://localhost:8080/api/bookings/",
+            all_bookings_api_url: "http://localhost:8080/api/bookings/"
+        };
+    </script>
+
+    <!-- Include development version of Vue.js -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <!-- Include your app.js script -->
+    <script src="path/to/your/app.js"></script>
+</body>
+
+</html>
